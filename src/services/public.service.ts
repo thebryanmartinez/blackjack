@@ -1,7 +1,7 @@
 import { baseApi } from './index'
-import { GetCard, GetDeckOfCards } from '@models/index'
+import { GetCard, GetDeckOfCards, Card } from '@models/index'
 
-export const getDeckOfCards = async () => {
+export const getDeckOfCards = async (): Promise<string | null> => {
   try {
     const response = await baseApi.get<GetDeckOfCards>(
       '/deck/new/shuffle/?deck_count=6'
@@ -9,10 +9,11 @@ export const getDeckOfCards = async () => {
     return response.data.deck_id
   } catch (error) {
     console.log(error)
+    return null
   }
 }
 
-export const getCard = async (deckId: string, amountOfCards: number = 1) => {
+export const getCard = async (deckId: string, amountOfCards: number = 1) : Promise<Card[]> => {
   try {
     const response = await baseApi.get<GetCard>(
       `/deck/${deckId}/draw/?count=${amountOfCards}`
@@ -21,5 +22,6 @@ export const getCard = async (deckId: string, amountOfCards: number = 1) => {
     return response.data.cards
   } catch (error) {
     console.log(error)
+    return []
   }
 }
