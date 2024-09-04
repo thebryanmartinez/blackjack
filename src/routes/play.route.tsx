@@ -4,39 +4,80 @@ import { getDeckOfCards, getCard } from '@/services'
 import { useState } from 'react'
 import { Card } from '@/models'
 import { cardDictionary } from '@/utils/cardsDictionaryImages'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 const Play = () => {
   const [deckId, setDeckId] = useState<string | null>(null)
-  const [playerCards, setPlayerCards] = useState<Card[]>([])
-  const [dealerCards, setDealerCards] = useState<Card[]>([])
   const [playerScore, setPlayerScore] = useState<number>(0)
   const [dealerScore, setDealerScore] = useState<number>(0)
   const [gameWinnerText, setGameWinnerText] = useState<string>('')
   const [gameRestart, setGameRestart] = useState<boolean>(false)
-  const [hitLoading, setHitLoading] = useState<boolean>(false)
-  const [stayLoading, setStayLoading] = useState<boolean>(false)
   const [dealersTurn, setDealerTurn] = useState<boolean>(false)
 
-  useEffect(() => {
-    const getDeck = async () => {
-      const deck = await getDeckOfCards()
+  const getNewCard = async (
+    cards: Card[],
+    setScore: (score: number) => void
+  ) => {
+    const newCards = [...cards]
 
-      if (deck) {
-        Promise.all([getCard(deck, 2), getCard(deck, 2)]).then(
-          ([playerCards, dealerCards]) => {
-            setPlayerCards(playerCards)
-            setDealerCards(dealerCards)
-            setPlayerScore(checkCardsValue(playerCards))
-            setDealerScore(checkCardsValue(dealerCards))
-          }
-        )
+    const newCard = await getCard(deckId!, 1)
+    newCards.push(newCard[0])
+    cards.push(newCard[0])
+    setScore(checkCardsValue(newCards))
+  }
 
-        setDeckId(deck)
-      }
+  const getNewCardMutation = useMutation({
+    mutationKey: ['hit'],
+    mutationFn: ({ cards, setScore }: { cards: Card[]; setScore: any }) => {
+      return getNewCard(cards, setScore)
     }
+  })
 
-    getDeck()
-  }, [gameRestart])
+  const { data: deck, isPending: isDeckPending } = useQuery({
+    queryKey: ['deck'],
+    queryFn: getDeckOfCards
+  })
+
+  const {
+    data: playerCards,
+    isPending: isPlayerCardsPending,
+    isSuccess: isPlayerCardsSuccess,
+    isRefetching: isPlayerCardsRefetching
+  } = useQuery({
+    queryKey: ['playerCards', gameRestart],
+    queryFn: () => getCard(deck!, 2),
+    enabled: !!deck
+  })
+
+  const {
+    data: dealerCards,
+    isPending: isDealerCardsPending,
+    isSuccess: isDealerCardsSuccess,
+    isRefetching: isDealerCardsRefetching
+  } = useQuery({
+    queryKey: ['dealerCards', gameRestart],
+    queryFn: () => getCard(deck!, 2),
+    enabled: !!deck
+  })
+
+  useEffect(() => {
+    if (
+      isPlayerCardsPending ||
+      isDealerCardsPending ||
+      isPlayerCardsRefetching ||
+      isDealerCardsRefetching
+    )
+      return
+
+    setPlayerScore(checkCardsValue(playerCards!))
+    setDealerScore(checkCardsValue(dealerCards!))
+    setDeckId(deck!)
+  }, [
+    isPlayerCardsSuccess,
+    isDealerCardsSuccess,
+    isDealerCardsRefetching,
+    isPlayerCardsRefetching
+  ])
 
   useEffect(() => {
     checkHit()
@@ -47,27 +88,10 @@ const Play = () => {
   }, [dealerScore])
 
   const hit = async () => {
-    try {
-      setHitLoading(true)
-      await getNewCard(playerCards, setPlayerCards, setPlayerScore)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setHitLoading(false)
-    }
-  }
-
-  const getNewCard = async (
-    cards: Card[],
-    setCards: (cards: Card[]) => void,
-    setScore: (score: number) => void
-  ) => {
-    const newCards = [...cards]
-
-    const newCard = await getCard(deckId!, 1)
-    newCards.push(newCard[0])
-    setCards(newCards)
-    setScore(checkCardsValue(newCards))
+    await getNewCardMutation.mutateAsync({
+      cards: playerCards!,
+      setScore: setPlayerScore
+    })
   }
 
   const checkCardsValue = (cards: Card[]) => {
@@ -95,7 +119,6 @@ const Play = () => {
   useEffect(() => {
     const checkDealerTurn = async () => {
       if (dealersTurn) {
-        setStayLoading(true)
         if (
           dealerScore < 17 &&
           dealerScore < playerScore &&
@@ -105,7 +128,6 @@ const Play = () => {
             await dealerHit()
           }, 500)
         } else {
-          setStayLoading(false)
           setGameWinnerText(checkWinner())
           restartGame()
         }
@@ -116,12 +138,10 @@ const Play = () => {
   }, [dealerScore, dealersTurn])
 
   const dealerHit = async () => {
-    try {
-      setStayLoading(true)
-      await getNewCard(dealerCards, setDealerCards, setDealerScore)
-    } catch (error) {
-      console.log(error)
-    }
+    await getNewCardMutation.mutateAsync({
+      cards: dealerCards!,
+      setScore: setDealerScore
+    })
   }
 
   const stay = async () => {
@@ -154,8 +174,6 @@ const Play = () => {
 
   const restartGame = () => {
     setTimeout(() => {
-      setPlayerCards([])
-      setDealerCards([])
       setPlayerScore(0)
       setDealerScore(0)
       setGameWinnerText('')
@@ -216,7 +234,12 @@ const Play = () => {
     )
   }
 
-  return (
+  const isButtonDisabled =
+    !!gameWinnerText || getNewCardMutation.isPending || dealersTurn
+
+  return isDeckPending || isPlayerCardsPending || isDealerCardsPending ? (
+    <span className='loading loading-dots loading-lg'></span>
+  ) : (
     <div className='flex h-screen flex-col'>
       <section className='flex flex-1 flex-col items-center justify-center'>
         <RenderScore score={dealerScore} />
@@ -234,9 +257,9 @@ const Play = () => {
           <button
             className='btn btn-primary btn-wide'
             onClick={hit}
-            disabled={!!gameWinnerText}
+            disabled={isButtonDisabled}
           >
-            {hitLoading ? (
+            {getNewCardMutation.isPending && !dealersTurn ? (
               <span className='loading loading-spinner'></span>
             ) : (
               'Hit'
@@ -245,13 +268,9 @@ const Play = () => {
           <button
             className='btn btn-secondary btn-wide'
             onClick={stay}
-            disabled={!!gameWinnerText}
+            disabled={isButtonDisabled}
           >
-            {stayLoading ? (
-              <span className='loading loading-spinner'></span>
-            ) : (
-              'Stay'
-            )}
+            Stay
           </button>
         </div>
       </section>
