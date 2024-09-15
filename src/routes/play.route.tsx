@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Card } from '@/models'
 import { cardDictionary } from '@/utils/cardsDictionaryImages'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { Button, Container, Layout } from '@/components/atoms'
 
 const Play = () => {
   const [deckId, setDeckId] = useState<string | null>(null)
@@ -184,9 +185,9 @@ const Play = () => {
 
   const RenderScore = (props: { score: number }) => {
     return (
-      <div className='my-4 grid h-12 w-12 place-items-center rounded-full bg-white font-bold text-black'>
+      <Container className='!my-4 grid place-items-center bg-white !px-4 !py-2'>
         {props.score}
-      </div>
+      </Container>
     )
   }
 
@@ -195,11 +196,11 @@ const Play = () => {
     containerStyle?: string
   }) => {
     return (
-      <div
+      <section
         className={`relative flex h-full w-screen justify-center ${props.containerStyle}`}
       >
         <RenderCards cards={props.cards} />
-      </div>
+      </section>
     )
   }
 
@@ -237,44 +238,42 @@ const Play = () => {
   const isButtonDisabled =
     !!gameWinnerText || getNewCardMutation.isPending || dealersTurn
 
-  return isDeckPending || isPlayerCardsPending || isDealerCardsPending ? (
-    <span className='loading loading-dots loading-lg'></span>
-  ) : (
-    <div className='flex h-screen flex-col'>
-      <section className='flex flex-1 flex-col items-center justify-center'>
-        <RenderScore score={dealerScore} />
-        <RenderCardsAndScore cards={dealerCards} />
-      </section>
-      <section>{gameWinnerText && <RenderGameWinner />}</section>
-      <section className='flex flex-1 flex-col items-center'>
-        <RenderCardsAndScore
-          cards={playerCards}
-          containerStyle='items-end'
-        />
-        <RenderScore score={playerScore} />
-        <section className='flex flex-1 flex-col items-center justify-center'></section>
-        <div className='flex w-full flex-row justify-center gap-12 pb-8'>
-          <button
-            className='btn btn-primary btn-wide'
-            onClick={hit}
-            disabled={isButtonDisabled}
-          >
-            {getNewCardMutation.isPending && !dealersTurn ? (
-              <span className='loading loading-spinner'></span>
-            ) : (
-              'Hit'
-            )}
-          </button>
-          <button
-            className='btn btn-secondary btn-wide'
-            onClick={stay}
-            disabled={isButtonDisabled}
-          >
-            Stay
-          </button>
-        </div>
-      </section>
-    </div>
+  return (
+    <Layout className='flex flex-col'>
+      {isDeckPending || isPlayerCardsPending || isDealerCardsPending ? (
+        <span className=''></span>
+      ) : (
+        <>
+          <section className='flex flex-1 flex-col items-center justify-center'>
+            <RenderScore score={dealerScore} />
+            <RenderCardsAndScore cards={dealerCards} />
+          </section>
+          <section>{gameWinnerText && <RenderGameWinner />}</section>
+          <section className='flex flex-1 flex-col items-center'>
+            <RenderCardsAndScore
+              cards={playerCards}
+              containerStyle='items-end'
+            />
+            <RenderScore score={playerScore} />
+            <section className='flex flex-1 flex-col items-center justify-center'></section>
+            <div className='flex w-full flex-row justify-center gap-12 pb-8'>
+              <Button
+                onClick={hit}
+                loading={getNewCardMutation.isPending && !dealersTurn}
+                text='Hit'
+                className='is-primary'
+                disabled={isButtonDisabled}
+              />
+              <Button
+                text='Stay'
+                onClick={stay}
+                disabled={isButtonDisabled}
+              />
+            </div>
+          </section>
+        </>
+      )}
+    </Layout>
   )
 }
 
