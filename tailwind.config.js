@@ -2,10 +2,15 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {}
+    extend: {
+      colors: {
+        table: {
+          green: '#126c29',
+          blue: '#105493',
+          purple: '#493c75'
+        }
+      }
+    }
   },
-  daisyui: {
-    themes: ['forest']
-  },
-  plugins: [require('daisyui')]
+  plugins: []
 }
