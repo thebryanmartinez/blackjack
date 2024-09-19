@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Logo } from '@/assets'
 import { Layout, Typography, Container, Button } from '@/components/atoms'
 import { useNavigate } from '@tanstack/react-router'
+import { strings } from '@/constants'
 
 const Home = () => {
   const navigate = useNavigate({ from: '/' })
@@ -17,7 +18,7 @@ const Home = () => {
           variant='h1'
           className='text-3xl md:text-5xl lg:text-6xl'
         >
-          Blackjack
+          {strings.home.title}
         </Typography>
       </Container>
       <img
@@ -26,9 +27,8 @@ const Home = () => {
         className='h-72 md:h-80 lg:h-96'
       />
       <Button
-        type='button'
         className='nes-btn is-primary !px-12 '
-        text='Play'
+        text={strings.home.play}
         onClick={navigateToPlay}
       />
     </Layout>

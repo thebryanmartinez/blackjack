@@ -1,0 +1,20 @@
+{
+  "home": {
+    "title": "Blackjack",
+    "play": "Play"
+  },
+  "play": {
+    "buttons": {
+      "hit": "Hit",
+      "stay": "Stay"
+    },
+    "results": {
+      "playerWinsBlackjack": "Player wins, blackjack!",
+      "dealerWinsPlayerBusted": "Dealer wins, player busted!",
+      "tie": "It's a tie!",
+      "playerWins": "Player wins!",
+      "dealerWins": "Dealer wins!",
+      "playerWinsDealerBusted": "Player wins, Dealer busted!"
+    }
+  }
+}

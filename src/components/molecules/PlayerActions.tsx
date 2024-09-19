@@ -1,4 +1,5 @@
 import { Button } from '@components/atoms'
+import { strings } from '@/constants'
 
 interface PlayerActionsProps {
   onHit: () => void
@@ -18,12 +19,12 @@ export const PlayerActions = ({
     <div className='flex w-full flex-row justify-center gap-12 pb-8'>
       <Button
         onClick={onHit}
-        text='Hit'
+        text={strings.play.buttons.hit}
         className='is-primary'
         disabled={isDisabled}
       />
       <Button
-        text='Stay'
+        text={strings.play.buttons.stay}
         onClick={onStay}
         loading={onStayLoading}
         disabled={isDisabled}

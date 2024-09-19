@@ -10,7 +10,7 @@ import {
   Score,
   PlayerActions
 } from '@components/molecules'
-import { Cards } from '@/constants'
+import { Cards, strings } from '@/constants'
 
 const Play = () => {
   const [deckId, setDeckId] = useState<string | null>(null)
@@ -166,25 +166,25 @@ const Play = () => {
 
   const checkHit = () => {
     if (playerScore === 21) {
-      setGameWinnerText('Player wins, blackjack!')
+      setGameWinnerText(strings.play.results.playerWinsBlackjack)
       restartGame()
     } else if (playerScore > 21) {
-      setGameWinnerText('Dealer wins, player busted!')
+      setGameWinnerText(strings.play.results.dealerWinsPlayerBusted)
       restartGame()
     }
   }
 
   const checkWinner = () => {
     if (playerScore > 21) {
-      return 'Dealer wins, Player busted!'
+      return strings.play.results.dealerWinsPlayerBusted
     } else if (dealerScore > 21) {
-      return 'Player wins, Dealer busted!'
+      return strings.play.results.playerWinsDealerBusted
     } else if (playerScore === dealerScore) {
-      return "It's a tie!"
+      return strings.play.results.tie
     } else if (playerScore > dealerScore) {
-      return 'Player wins!'
+      return strings.play.results.playerWins
     } else {
-      return 'Dealer wins!'
+      return strings.play.results.dealerWins
     }
   }
 
