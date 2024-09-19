@@ -1,11 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect } from 'react'
-import { getDeckOfCards, getCard } from '@/services'
-import { useState } from 'react'
-import { Card } from '@/models'
-import { cardDictionary } from '@/utils/cardsDictionaryImages'
+import { useEffect, useState } from 'react'
+import { getDeckOfCards, getCard } from '@services/index'
+import { Card } from '@models/index'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { Button, Container, Layout } from '@/components/atoms'
+import { Layout } from '@components/atoms'
+import {
+  CardHand,
+  GameResult,
+  Score,
+  PlayerActions
+} from '@components/molecules'
 
 const Play = () => {
   const [deckId, setDeckId] = useState<string | null>(null)
@@ -145,7 +149,7 @@ const Play = () => {
     })
   }
 
-  const stay = async () => {
+  const stay = () => {
     setDealerTurn(true)
   }
 
@@ -183,93 +187,32 @@ const Play = () => {
     }, 4000)
   }
 
-  const RenderScore = (props: { score: number }) => {
-    return (
-      <Container className='!my-4 grid place-items-center bg-white !px-4 !py-2'>
-        {props.score}
-      </Container>
-    )
-  }
-
-  const RenderCardsAndScore = (props: {
-    cards: Card[]
-    containerStyle?: string
-  }) => {
-    return (
-      <section
-        className={`relative flex h-full w-screen justify-center ${props.containerStyle}`}
-      >
-        <RenderCards cards={props.cards} />
-      </section>
-    )
-  }
-
-  const RenderCards = (props: { cards: Card[] }) => {
-    return (
-      <>
-        {props.cards.map((card, index) => {
-          const cardMargin =
-            '[&:nth-child(2)]:ml-[4rem] [&:nth-child(3)]:ml-[8rem] [&:nth-child(4)]:ml-[12rem] [&:nth-child(5)]:ml-[16rem] [&:nth-child(6)]:ml-[20rem] [&:nth-child(7)]:ml-[24rem] [&:nth-child(8)]:ml-[28rem] [&:nth-child(9)]:ml-[32rem] [&:nth-child(10)]:ml-[36rem] [&:nth-child(11)]:ml-[40rem] [&:nth-child(12)]:ml-[44rem]'
-          return (
-            <div
-              className={`absolute flex w-36 flex-col bg-black ${cardMargin}`}
-              key={index}
-            >
-              <img
-                className=''
-                src={cardDictionary[card.code]}
-                alt=''
-              />
-            </div>
-          )
-        })}
-      </>
-    )
-  }
-
-  const RenderGameWinner = () => {
-    return (
-      <div className='text-center'>
-        <p className='text-4xl font-bold'>{gameWinnerText}</p>
-      </div>
-    )
-  }
-
   const isButtonDisabled =
     !!gameWinnerText || getNewCardMutation.isPending || dealersTurn
 
   return (
     <Layout className='flex flex-col'>
       {isDeckPending || isPlayerCardsPending || isDealerCardsPending ? (
-        <span className=''></span>
+        <span className=''></span> // TODO: loading spinner
       ) : (
         <>
-          <section className='flex flex-1 flex-col items-center justify-center'>
-            <RenderScore score={dealerScore} />
-            <RenderCardsAndScore cards={dealerCards} />
-          </section>
-          <section>{gameWinnerText && <RenderGameWinner />}</section>
           <section className='flex flex-1 flex-col items-center'>
-            <RenderCardsAndScore
+            <Score score={dealerScore} />
+            <CardHand cards={dealerCards} />
+          </section>
+          {gameWinnerText && <GameResult text={gameWinnerText} />}
+          <section className='flex flex-1 flex-col items-center'>
+            <CardHand
               cards={playerCards}
               containerStyle='items-end'
             />
-            <RenderScore score={playerScore} />
-            <section className='flex flex-1 flex-col items-center justify-center'></section>
-            <div className='flex w-full flex-row justify-center gap-12 pb-8'>
-              <Button
-                onClick={hit}
-                loading={getNewCardMutation.isPending && !dealersTurn}
-                text='Hit'
-                className='is-primary'
-                disabled={isButtonDisabled}
-              />
-              <Button
-                text='Stay'
-                onClick={stay}
-                disabled={isButtonDisabled}
-              />
-            </div>
+            <Score score={playerScore} />
+            <PlayerActions
+              onHit={hit}
+              onHitLoading={getNewCardMutation.isPending && !dealersTurn}
+              onStay={stay}
+              isDisabled={isButtonDisabled}
+            />
           </section>
         </>
       )}
