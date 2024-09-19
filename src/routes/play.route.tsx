@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { getDeckOfCards, getCard } from '@services/index'
 import { Card } from '@models/index'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { Layout } from '@components/atoms'
+import { Layout, Loader, PlayerLayout } from '@components/atoms'
 import {
   CardHand,
   GameResult,
@@ -68,7 +68,7 @@ const Play = () => {
   } = useQuery({
     queryKey: ['dealerCards'],
     queryFn: () => getCard(deck!, 2),
-    enabled: !!deck
+    enabled: false
   })
 
   useEffect(() => {
@@ -204,15 +204,14 @@ const Play = () => {
   return (
     <Layout className='flex flex-col'>
       {isDeckPending || isPlayerCardsPending || isDealerCardsPending ? (
-        <span className=''></span> // TODO: loading spinner
+        <Loader />
       ) : (
         <>
-          <section className='flex flex-1 flex-col items-center'>
+          <PlayerLayout>
             <Score score={dealerScore} />
             <CardHand cards={dealerCards} />
-          </section>
-          {gameWinnerText && <GameResult text={gameWinnerText} />}
-          <section className='flex flex-1 flex-col items-center'>
+          </PlayerLayout>
+          <PlayerLayout>
             <CardHand
               cards={playerCards}
               containerStyle='items-end'
@@ -224,9 +223,10 @@ const Play = () => {
               onStay={stay}
               isDisabled={isButtonDisabled}
             />
-          </section>
+          </PlayerLayout>
         </>
       )}
+      {gameWinnerText && <GameResult text={gameWinnerText} />}
     </Layout>
   )
 }

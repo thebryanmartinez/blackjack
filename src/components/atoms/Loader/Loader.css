@@ -1,0 +1,159 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  background-size: cover;
+  background-repeat: repeat-x;
+  background-position: center;
+  padding: 0;
+  margin: 0;
+}
+
+.loader {
+  align-self: center;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  animation: spin 1.5s steps(1) infinite;
+  box-sizing: border-box;
+}
+
+.block {
+  position: absolute;
+  background: #f0f0f0;
+  width: 10px;
+  height: 10px;
+}
+
+.active {
+  background: #209cee;
+}
+
+/* Top Blocks */
+#block_01 {
+  top: 0px;
+  left: 20px;
+}
+#block_02 {
+  top: 0px;
+  left: 30px;
+}
+#block_03 {
+  top: 0px;
+  left: 40px;
+}
+#block_04 {
+  top: 0px;
+  left: 50px;
+}
+
+/* Top-Right Corner */
+#block_0a {
+  top: 10px;
+  left: 60px;
+}
+
+/* Right Blocks */
+#block_05 {
+  top: 20px;
+  left: 70px;
+}
+#block_06 {
+  top: 30px;
+  left: 70px;
+}
+#block_07 {
+  top: 40px;
+  left: 70px;
+}
+#block_08 {
+  top: 50px;
+  left: 70px;
+}
+
+/* Bottom-Right Corner */
+#block_0b {
+  top: 60px;
+  left: 60px;
+}
+
+/* Bottom Blocks */
+#block_09 {
+  top: 70px;
+  left: 50px;
+}
+#block_10 {
+  top: 70px;
+  left: 40px;
+}
+#block_11 {
+  top: 70px;
+  left: 30px;
+}
+#block_12 {
+  top: 70px;
+  left: 20px;
+}
+
+/* Bottom-Left Corner */
+#block_0c {
+  top: 60px;
+  left: 10px;
+}
+
+/* Left Blocks */
+#block_13 {
+  top: 20px;
+  left: 0px;
+}
+#block_14 {
+  top: 30px;
+  left: 0px;
+}
+#block_15 {
+  top: 40px;
+  left: 0px;
+}
+#block_16 {
+  top: 50px;
+  left: 0px;
+}
+
+/* Top-Left Corner */
+#block_0d {
+  top: 10px;
+  left: 10px;
+}
+
+.block_highlight {
+  background: green;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  /*   12.5% { transform: rotate(45deg); } */
+  25% {
+    transform: rotate(90deg);
+  }
+  /*   37.5% { transform: rotate(135deg); } */
+  50% {
+    transform: rotate(180deg);
+  }
+  /*   62.5% { transform: rotate(225deg); } */
+  75% {
+    transform: rotate(270deg);
+  }
+  /*   87.5% { transform: rotate(315deg); } */
+  100% {
+    transform: rotate(360deg);
+  }
+}
