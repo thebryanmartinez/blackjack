@@ -10,6 +10,7 @@ import {
   Score,
   PlayerActions
 } from '@components/molecules'
+import { Cards } from '@/constants'
 
 const Play = () => {
   const [deckId, setDeckId] = useState<string | null>(null)
@@ -50,7 +51,11 @@ const Play = () => {
     isRefetching: isPlayerCardsRefetching
   } = useQuery({
     queryKey: ['playerCards', gameRestart],
-    queryFn: () => getCard(deck!, 2),
+    queryFn: async () => {
+      const cards = await getCard(deck!, 2)
+      refetchDealerCards()
+      return cards
+    },
     enabled: !!deck
   })
 
@@ -58,9 +63,10 @@ const Play = () => {
     data: dealerCards,
     isPending: isDealerCardsPending,
     isSuccess: isDealerCardsSuccess,
-    isRefetching: isDealerCardsRefetching
+    isRefetching: isDealerCardsRefetching,
+    refetch: refetchDealerCards
   } = useQuery({
-    queryKey: ['dealerCards', gameRestart],
+    queryKey: ['dealerCards'],
     queryFn: () => getCard(deck!, 2),
     enabled: !!deck
   })
@@ -102,14 +108,19 @@ const Play = () => {
   const checkCardsValue = (cards: Card[]) => {
     const newCards = cards.map((card) => {
       if (
-        card.value === 'JACK' ||
-        card.value === 'QUEEN' ||
-        card.value === 'KING' ||
-        card.value === 'ACE'
+        card.value === Cards.JACK ||
+        card.value === Cards.QUEEN ||
+        card.value === Cards.KING
       ) {
         return {
           ...card,
           value: 10
+        }
+      }
+      if (card.value === Cards.ACE) {
+        return {
+          ...card,
+          value: 11
         }
       }
       return {
