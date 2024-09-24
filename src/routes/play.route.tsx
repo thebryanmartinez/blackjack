@@ -36,11 +36,14 @@ const Play = () => {
     mutationKey: ['hit'],
     mutationFn: ({ cards, setScore }: { cards: Card[]; setScore: any }) => {
       return getNewCard(cards, setScore)
-    }
+    },
+    gcTime: 0
   })
 
   const { data: deck, isPending: isDeckPending } = useQuery({
     queryKey: ['deck'],
+    gcTime: 0,
+    networkMode: 'always',
     queryFn: getDeckOfCards
   })
 
@@ -56,6 +59,8 @@ const Play = () => {
       refetchDealerCards()
       return cards
     },
+    gcTime: 0,
+    networkMode: 'always',
     enabled: !!deck
   })
 
@@ -67,6 +72,8 @@ const Play = () => {
     refetch: refetchDealerCards
   } = useQuery({
     queryKey: ['dealerCards'],
+    gcTime: 0,
+    networkMode: 'always',
     queryFn: () => getCard(deck!, 2),
     enabled: false
   })
@@ -208,14 +215,17 @@ const Play = () => {
       ) : (
         <>
           <PlayerLayout>
-            <Score score={dealerScore} />
-            <CardHand cards={dealerCards} />
+            <Score
+              hideDealerScore={!dealersTurn}
+              score={dealerScore}
+            />
+            <CardHand
+              hideDealerCard={!dealersTurn}
+              cards={dealerCards}
+            />
           </PlayerLayout>
           <PlayerLayout>
-            <CardHand
-              cards={playerCards}
-              containerStyle='items-end'
-            />
+            <CardHand cards={playerCards} />
             <Score score={playerScore} />
             <PlayerActions
               onHit={hit}
