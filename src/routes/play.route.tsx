@@ -10,7 +10,7 @@ import {
   Score,
   PlayerActions
 } from '@components/molecules'
-import { Cards, strings } from '@/constants'
+import { Cards, Routes, strings } from '@/constants'
 
 const Play = () => {
   const [deckId, setDeckId] = useState<string | null>(null)
@@ -125,6 +125,12 @@ const Play = () => {
         }
       }
       if (card.value === Cards.ACE) {
+        if (playerScore + 11 > 21) {
+          return {
+            ...card,
+            value: 1
+          }
+        }
         return {
           ...card,
           value: 11
@@ -241,6 +247,6 @@ const Play = () => {
   )
 }
 
-export const Route = createFileRoute('/play')({
+export const Route = createFileRoute(Routes.PLAY)({
   component: Play
 })

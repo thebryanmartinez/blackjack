@@ -13,7 +13,7 @@ export const Score = ({ score, hideDealerScore }: ScoreProps) => {
       ) : (
         <Typography
           variant='span'
-          className='text-black'
+          className='!text-black'
         >
           ?
         </Typography>

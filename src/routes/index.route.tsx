@@ -2,13 +2,13 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Logo } from '@/assets'
 import { Layout, Typography, Container, Button } from '@/components/atoms'
 import { useNavigate } from '@tanstack/react-router'
-import { strings } from '@/constants'
+import { Routes, strings } from '@/constants'
 
 const Home = () => {
-  const navigate = useNavigate({ from: '/' })
+  const navigate = useNavigate({ from: Routes.HOME })
 
-  const navigateToPlay = () => {
-    navigate({ to: '/play' })
+  const navigateToBet = () => {
+    navigate({ to: Routes.BET })
   }
 
   return (
@@ -29,12 +29,12 @@ const Home = () => {
       <Button
         className='nes-btn is-primary !px-12 '
         text={strings.home.play}
-        onClick={navigateToPlay}
+        onClick={navigateToBet}
       />
     </Layout>
   )
 }
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute(Routes.HOME)({
   component: Home
 })

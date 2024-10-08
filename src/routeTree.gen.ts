@@ -12,12 +12,18 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as PlayRouteImport } from './routes/play.route'
+import { Route as BetRouteImport } from './routes/bet.route'
 import { Route as IndexRouteImport } from './routes/index.route'
 
 // Create/Update Routes
 
 const PlayRouteRoute = PlayRouteImport.update({
   path: '/play',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BetRouteRoute = BetRouteImport.update({
+  path: '/bet',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -34,6 +40,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRoute
     }
+    '/bet': {
+      preLoaderRoute: typeof BetRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/play': {
       preLoaderRoute: typeof PlayRouteImport
       parentRoute: typeof rootRoute
@@ -45,6 +55,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRouteRoute,
+  BetRouteRoute,
   PlayRouteRoute,
 ])
 

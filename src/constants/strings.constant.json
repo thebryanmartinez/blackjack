@@ -3,6 +3,7 @@
     "title": "Blackjack",
     "play": "Play"
   },
+  "bet": {},
   "play": {
     "buttons": {
       "hit": "Hit",
