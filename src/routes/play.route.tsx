@@ -11,6 +11,8 @@ import {
   PlayerActions
 } from '@components/molecules'
 import { Cards, Routes, strings } from '@/constants'
+import { useBet, useChipBalance } from '@/hooks'
+import ChipAmount from '@/components/molecules/ChipAmount'
 
 const Play = () => {
   const [deckId, setDeckId] = useState<string | null>(null)
@@ -19,6 +21,9 @@ const Play = () => {
   const [gameWinnerText, setGameWinnerText] = useState<string>('')
   const [gameRestart, setGameRestart] = useState<boolean>(false)
   const [dealersTurn, setDealerTurn] = useState<boolean>(false)
+
+  const { currentBet } = useBet()
+  const { getChipBalance } = useChipBalance()
 
   const getNewCard = async (
     cards: Card[],
@@ -220,6 +225,20 @@ const Play = () => {
         <Loader />
       ) : (
         <>
+          <div className='absolute left-0 top-4 flex h-fit w-full justify-between '>
+            <ChipAmount
+              amount={Number(currentBet)}
+              border={false}
+              imagePosition='left'
+              scale={75}
+            />
+            <ChipAmount
+              amount={getChipBalance()}
+              border={false}
+              imagePosition='left'
+              scale={75}
+            />
+          </div>
           <PlayerLayout>
             <Score
               hideDealerScore={!dealersTurn}

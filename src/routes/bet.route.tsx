@@ -1,12 +1,35 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Layout, Typography, Container, Button } from '@components/atoms'
+import { Layout, Typography, Button, Container } from '@components/atoms'
 import { useNavigate } from '@tanstack/react-router'
-import { Routes, strings } from '@/constants'
+import { Routes } from '@/constants'
 import { useState } from 'react'
 import { BetChip, BetDisplay } from '@components/molecules'
 import { useBet, useChipBalance } from '@/hooks'
+import BlackChip from '@/assets/chips/chipBlack.png'
+import RedChip from '@/assets/chips/chipRed.png'
+import GreenChip from '@/assets/chips/chipGreen.png'
+import BlueChip from '@/assets/chips/chipBlue.png'
+import ChipsMedium from '@/assets/chips/chipsMedium.png'
+import ChipAmount from '@/components/molecules/ChipAmount'
 
-const chips = [5, 10, 25, 100]
+const CHIPS = [
+  {
+    value: 5,
+    image: RedChip
+  },
+  {
+    value: 10,
+    image: BlueChip
+  },
+  {
+    value: 25,
+    image: GreenChip
+  },
+  {
+    value: 100,
+    image: BlackChip
+  }
+]
 
 const Bet = () => {
   const [bet, setBet] = useState<number>(0)
@@ -28,13 +51,8 @@ const Bet = () => {
 
   return (
     <Layout className='flex flex-col justify-between'>
-      <div className='flex items-center justify-end'>
-        <Typography
-          variant='h1'
-          className='text-xl'
-        >
-          {currentChipBalance - bet}
-        </Typography>
+      <div className='flex w-full justify-end'>
+        <ChipAmount amount={currentChipBalance - bet} />
       </div>
       <BetDisplay
         bet={bet}
@@ -42,12 +60,13 @@ const Bet = () => {
       />
       <div>
         <div className='flex items-center justify-between gap-4 pb-4'>
-          {chips.map((chip: number) => (
+          {CHIPS.map(({ value, image }) => (
             <BetChip
-              bet={chip}
-              key={chip}
-              onClick={() => setBet(bet + chip)}
-              disabled={bet + chip > currentChipBalance}
+              bet={value}
+              key={value}
+              onClick={() => setBet(bet + value)}
+              disabled={bet + value > currentChipBalance}
+              image={image}
             />
           ))}
         </div>
