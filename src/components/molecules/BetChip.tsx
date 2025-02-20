@@ -10,7 +10,7 @@ interface BetChipProps {
 export const BetChip = ({ bet, onClick, disabled, image }: BetChipProps) => {
   return (
     <div
-      className='relative w-16'
+      className='nes-pointer relative w-16'
       role='button'
       onClick={!disabled ? onClick : undefined}
     >

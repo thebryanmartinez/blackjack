@@ -5,9 +5,14 @@
   },
   "bet": {},
   "play": {
+    "highScore": "High score: ",
     "buttons": {
       "hit": "Hit",
       "stay": "Stay"
+    },
+    "tooltips": {
+      "balance": "Chip balance",
+      "bet": "Your bet"
     },
     "results": {
       "playerWinsBlackjack": "Player wins, blackjack!",

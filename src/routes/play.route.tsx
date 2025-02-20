@@ -11,7 +11,7 @@ import {
   PlayerActions
 } from '@components/molecules'
 import { Cards, Routes, strings } from '@/constants'
-import { useBet, useChipBalance } from '@/hooks'
+import { useBet, useChipBalance, useHighScore } from '@/hooks'
 import ChipAmount from '@/components/molecules/ChipAmount'
 
 const Play = () => {
@@ -21,9 +21,11 @@ const Play = () => {
   const [gameWinnerText, setGameWinnerText] = useState<string>('')
   const [gameRestart, setGameRestart] = useState<boolean>(false)
   const [dealersTurn, setDealerTurn] = useState<boolean>(false)
+  const [gameFinished, setGameFinished] = useState<boolean>(false)
 
   const { currentBet } = useBet()
-  const { getChipBalance } = useChipBalance()
+  const { getChipBalance, updateChipBalance } = useChipBalance()
+  const { highScore, updateHighScore } = useHighScore()
 
   const getNewCard = async (
     cards: Card[],
@@ -106,10 +108,6 @@ const Play = () => {
     checkHit()
   }, [playerScore])
 
-  useEffect(() => {
-    checkWinner()
-  }, [dealerScore])
-
   const hit = async () => {
     await getNewCardMutation.mutateAsync({
       cards: playerCards!,
@@ -162,7 +160,9 @@ const Play = () => {
             await dealerHit()
           }, 500)
         } else {
-          setGameWinnerText(checkWinner())
+          const winnerText = checkWinner()
+          console.log(winnerText)
+          setGameWinnerText(winnerText)
           restartGame()
         }
       }
@@ -182,32 +182,55 @@ const Play = () => {
     setDealerTurn(true)
   }
 
+  const onPlayerWin = () => {
+    const winBet = Number(currentBet) * 2
+    const currentBalance = getChipBalance()
+    const balanceUpdated = currentBalance + winBet
+    updateChipBalance(balanceUpdated)
+    if (currentBalance >= Number(highScore)) {
+      updateHighScore(balanceUpdated)
+    }
+  }
+
   const checkHit = () => {
     if (playerScore === 21) {
+      onPlayerWin()
       setGameWinnerText(strings.play.results.playerWinsBlackjack)
       restartGame()
     } else if (playerScore > 21) {
+      onDealerWin()
       setGameWinnerText(strings.play.results.dealerWinsPlayerBusted)
       restartGame()
     }
   }
 
+  const onDealerWin = () => {
+    const currentBalance = getChipBalance()
+    const updatedBalance = currentBalance - Number(currentBet)
+    updateChipBalance(updatedBalance)
+  }
+
   const checkWinner = () => {
     if (playerScore > 21) {
+      onDealerWin()
       return strings.play.results.dealerWinsPlayerBusted
     } else if (dealerScore > 21) {
+      onPlayerWin()
       return strings.play.results.playerWinsDealerBusted
     } else if (playerScore === dealerScore) {
       return strings.play.results.tie
     } else if (playerScore > dealerScore) {
+      onPlayerWin()
       return strings.play.results.playerWins
     } else {
+      onDealerWin()
       return strings.play.results.dealerWins
     }
   }
 
   const restartGame = () => {
     setTimeout(() => {
+      setGameFinished(false)
       setPlayerScore(0)
       setDealerScore(0)
       setGameWinnerText('')
@@ -225,19 +248,28 @@ const Play = () => {
         <Loader />
       ) : (
         <>
-          <div className='absolute left-0 top-4 flex h-fit w-full justify-between '>
+          <div className='absolute left-0 top-4 flex h-fit w-full justify-between px-4'>
             <ChipAmount
               amount={Number(currentBet)}
               border={false}
               imagePosition='left'
               scale={75}
+              tooltipSide='right'
+              tooltipText={strings.play.tooltips.bet}
             />
-            <ChipAmount
-              amount={getChipBalance()}
-              border={false}
-              imagePosition='left'
-              scale={75}
-            />
+            <div className='flex flex-col gap-2 [&>*]:self-end'>
+              <ChipAmount
+                amount={getChipBalance()}
+                border={false}
+                imagePosition='right'
+                scale={75}
+                tooltipSide='left'
+                tooltipText={strings.play.tooltips.balance}
+              />
+              <span className='text-white'>
+                {strings.play.highScore} {highScore}
+              </span>
+            </div>
           </div>
           <PlayerLayout>
             <Score
