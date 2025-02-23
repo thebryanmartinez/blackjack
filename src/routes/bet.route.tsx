@@ -49,9 +49,18 @@ const Bet = () => {
     navigate({ to: Routes.PLAY })
   }
 
+  const navigateToHome = () => {
+    navigate({ to: Routes.HOME })
+  }
+
   return (
     <Layout className='flex flex-col justify-between'>
-      <div className='flex w-full justify-end'>
+      <div className='flex w-full items-center justify-between'>
+        <Button
+          className='!pl-3 !pr-3'
+          onClick={navigateToHome}
+          text='<'
+        />
         <ChipAmount amount={currentChipBalance - bet} />
       </div>
       <BetDisplay
