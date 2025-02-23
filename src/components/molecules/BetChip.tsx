@@ -16,7 +16,7 @@ export const BetChip = ({ bet, onClick, disabled, image }: BetChipProps) => {
     >
       <Typography
         variant='h1'
-        className='absolute left-[50%] top-[50%] -translate-x-2/4 -translate-y-2/4 text-xl !text-black'
+        className='text-stroke absolute left-[45%] top-[50%] -translate-x-2/4 -translate-y-2/4 text-xl !text-white'
       >
         {bet}
       </Typography>

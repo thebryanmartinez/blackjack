@@ -58,8 +58,8 @@ const Bet = () => {
         bet={bet}
         clearBet={clearBet}
       />
-      <div>
-        <div className='flex items-center justify-between gap-4 pb-4'>
+      <div className='flex w-full flex-col gap-4 md:items-center'>
+        <div className='flex items-center justify-between gap-4 pb-4 md:w-1/2 '>
           {CHIPS.map(({ value, image }) => (
             <BetChip
               bet={value}
@@ -71,19 +71,12 @@ const Bet = () => {
           ))}
         </div>
 
-        <div className='flex items-center justify-between gap-4'>
-          <Button
-            text='Play'
-            onClick={navigateToPlay}
-            className='is-primary w-full'
-            disabled={bet === 0}
-          />
-          <Button
-            text='Cancel'
-            onClick={navigateToPlay}
-            className='w-full'
-          />
-        </div>
+        <Button
+          text='Play'
+          onClick={navigateToPlay}
+          className='is-primary w-full md:w-1/3'
+          disabled={bet === 0}
+        />
       </div>
     </Layout>
   )

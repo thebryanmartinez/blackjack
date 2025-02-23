@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        dark: '#24242c',
         table: {
           green: '#126c29',
           blue: '#105493',

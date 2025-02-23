@@ -6,5 +6,7 @@ interface ContainerProps {
 }
 
 export const Container = ({ children, className }: ContainerProps) => {
-  return <div className={`nes-container ${className}`}>{children}</div>
+  return (
+    <div className={`nes-container !border-dark ${className}`}>{children}</div>
+  )
 }

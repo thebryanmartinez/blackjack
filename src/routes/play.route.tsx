@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { getDeckOfCards, getCard } from '@services/index'
 import { Card } from '@models/index'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { Layout, Loader, PlayerLayout } from '@components/atoms'
+import { Layout, Loader } from '@components/atoms'
 import {
   CardHand,
   GameResult,
@@ -244,53 +244,56 @@ const Play = () => {
 
   return (
     <Layout className='flex flex-col'>
-      {isDeckPending || isPlayerCardsPending || isDealerCardsPending ? (
+      {isDeckPending ||
+      isPlayerCardsPending ||
+      isDealerCardsPending ||
+      isPlayerCardsRefetching ||
+      isDealerCardsRefetching ||
+      playerScore === 0 ? (
         <Loader />
       ) : (
         <>
-          <div className='absolute left-0 top-4 flex h-fit w-full justify-between px-4'>
+          <div className='absolute left-0 top-4 flex w-full items-end justify-between px-4'>
             <ChipAmount
               amount={Number(currentBet)}
               border={false}
               imagePosition='left'
-              scale={75}
               tooltipSide='right'
               tooltipText={strings.play.tooltips.bet}
             />
-            <div className='flex flex-col gap-2 [&>*]:self-end'>
-              <ChipAmount
-                amount={getChipBalance()}
-                border={false}
-                imagePosition='right'
-                scale={75}
-                tooltipSide='left'
-                tooltipText={strings.play.tooltips.balance}
+            <ChipAmount
+              amount={getChipBalance()}
+              border={false}
+              imagePosition='right'
+              tooltipSide='left'
+              tooltipText={strings.play.tooltips.balance}
+            />
+          </div>
+          <span className='absolute right-0 top-[5.5rem] pr-4 text-white'>
+            {strings.play.highScore} {highScore}
+          </span>
+          <div className='my-32 flex flex-1 flex-col items-center justify-between'>
+            <div className='flex flex-col items-center'>
+              <Score
+                hideDealerScore={!dealersTurn}
+                score={dealerScore}
               />
-              <span className='text-white'>
-                {strings.play.highScore} {highScore}
-              </span>
+              <CardHand
+                hideDealerCard={!dealersTurn}
+                cards={dealerCards!}
+              />
+            </div>
+            <div className='flex flex-col items-center'>
+              <CardHand cards={playerCards!} />
+              <Score score={playerScore} />
             </div>
           </div>
-          <PlayerLayout>
-            <Score
-              hideDealerScore={!dealersTurn}
-              score={dealerScore}
-            />
-            <CardHand
-              hideDealerCard={!dealersTurn}
-              cards={dealerCards}
-            />
-          </PlayerLayout>
-          <PlayerLayout>
-            <CardHand cards={playerCards} />
-            <Score score={playerScore} />
-            <PlayerActions
-              onHit={hit}
-              onHitLoading={getNewCardMutation.isPending && !dealersTurn}
-              onStay={stay}
-              isDisabled={isButtonDisabled}
-            />
-          </PlayerLayout>
+          <PlayerActions
+            onHit={hit}
+            onHitLoading={getNewCardMutation.isPending && !dealersTurn}
+            onStay={stay}
+            isDisabled={isButtonDisabled}
+          />
         </>
       )}
       {gameWinnerText && <GameResult text={gameWinnerText} />}
