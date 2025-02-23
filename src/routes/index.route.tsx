@@ -1,11 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Logo } from '@/assets'
-import { Layout, Typography, Container, Button } from '@/components/atoms'
+import { Layout, Typography, Button } from '@/components/atoms'
 import { useNavigate } from '@tanstack/react-router'
 import { Routes, strings } from '@/constants'
+import { useTableTheme } from '@/contexts'
 
 const Home = () => {
   const navigate = useNavigate({ from: Routes.HOME })
+  const { toggleTableColor } = useTableTheme()
 
   const navigateToBet = () => {
     navigate({ to: Routes.BET })
@@ -13,24 +15,32 @@ const Home = () => {
 
   return (
     <Layout className='grid place-items-center'>
-      <Container>
-        <Typography
-          variant='h1'
-          className='text-3xl md:text-5xl lg:text-6xl'
-        >
-          {strings.home.title}
-        </Typography>
-      </Container>
+      <Typography
+        variant='h1'
+        className='text-stroke text-3xl uppercase md:text-5xl lg:text-6xl'
+      >
+        {strings.home.title}
+      </Typography>
       <img
         src={Logo}
         alt='Blackjack Logo'
         className='h-72 md:h-80 lg:h-96'
       />
-      <Button
-        className='nes-btn is-primary !px-12 '
-        text={strings.home.play}
-        onClick={navigateToBet}
-      />
+      <div className='flex w-full flex-col place-items-center gap-4'>
+        <Button
+          className='nes-btn is-primary w-full md:w-1/2 '
+          text={strings.home.play}
+          onClick={navigateToBet}
+        />
+        <div className='flex justify-between gap-4 md:w-1/2'>
+          <Button
+            text={strings.home.changeColor}
+            className='w-full'
+            onClick={toggleTableColor}
+          />
+          <Button text='WIP' />
+        </div>
+      </div>
     </Layout>
   )
 }

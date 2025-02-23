@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Layout, Typography, Button, Container } from '@components/atoms'
+import { Layout, Button } from '@components/atoms'
 import { useNavigate } from '@tanstack/react-router'
 import { Routes } from '@/constants'
 import { useState } from 'react'
@@ -9,7 +9,6 @@ import BlackChip from '@/assets/chips/chipBlack.png'
 import RedChip from '@/assets/chips/chipRed.png'
 import GreenChip from '@/assets/chips/chipGreen.png'
 import BlueChip from '@/assets/chips/chipBlue.png'
-import ChipsMedium from '@/assets/chips/chipsMedium.png'
 import ChipAmount from '@/components/molecules/ChipAmount'
 
 const CHIPS = [

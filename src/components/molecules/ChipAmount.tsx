@@ -53,7 +53,7 @@ const ChipAmount = ({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
-          <Container
+          <div
             className={`flex w-fit items-center justify-center gap-4 ${borderStyle} ${scaleStyle}`}
           >
             {imagePosition === 'left' && (
@@ -76,7 +76,7 @@ const ChipAmount = ({
                 alt='Chips image'
               />
             )}
-          </Container>
+          </div>
         </TooltipTrigger>
         <TooltipContent side={tooltipSide}>
           <div className={`nes-balloon ${balloonStyle}`}>{tooltipText}</div>
