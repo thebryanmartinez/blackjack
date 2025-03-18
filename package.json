@@ -21,13 +21,15 @@
     "nes.css": "^2.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-helmet-async": "^2.0.4"
+    "react-helmet-async": "^2.0.4",
+    "react-modal": "^3.16.3"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.53.0",
     "@tanstack/router-vite-plugin": "^1.25.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
+    "@types/react-modal": "^3.16.3",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
     "@vitejs/plugin-react": "^4.2.1",
