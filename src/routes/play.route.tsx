@@ -8,11 +8,11 @@ import {
   CardHand,
   GameResult,
   Score,
-  PlayerActions
+  PlayerActions,
+  ChipAmount
 } from '@components/molecules'
 import { Cards, Routes, strings } from '@/constants'
 import { useBet, useChipBalance, useHighScore } from '@/hooks'
-import ChipAmount from '@/components/molecules/ChipAmount'
 
 const Play = () => {
   const [deckId, setDeckId] = useState<string | null>(null)

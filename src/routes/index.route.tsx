@@ -4,6 +4,7 @@ import { Layout, Typography, Button } from '@/components/atoms'
 import { useNavigate } from '@tanstack/react-router'
 import { Routes, strings } from '@/constants'
 import { useTableTheme } from '@/contexts'
+import { GameFinishedDialog } from '@/components/molecules'
 
 const Home = () => {
   const navigate = useNavigate({ from: Routes.HOME })
@@ -40,6 +41,7 @@ const Home = () => {
           />
           <Button text='WIP' />
         </div>
+        <GameFinishedDialog />
       </div>
     </Layout>
   )
