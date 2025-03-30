@@ -1,6 +1,6 @@
 export interface ButtonProps {
   type?: 'submit' | 'button' | 'reset'
-  text: string
+  text: string | JSX.Element
   onClick?: () => void
   className?: string
   loading?: boolean

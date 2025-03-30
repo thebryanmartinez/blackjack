@@ -1,5 +1,5 @@
 import { Button } from '@components/atoms'
-import { strings } from '@/constants'
+import { useTranslation } from 'react-i18next'
 
 interface PlayerActionsProps {
   onHit: () => void
@@ -15,18 +15,20 @@ export const PlayerActions = ({
   onStayLoading,
   isDisabled
 }: PlayerActionsProps) => {
+  const { t } = useTranslation()
+
   return (
     <div className='absolute bottom-8 left-0 flex w-full flex-row justify-center gap-12 '>
       <Button
         onClick={onHit}
-        text={strings.play.buttons.hit}
-        className='is-primary w-36'
+        text={t('play.buttons.hit')}
+        className='is-primary w-fit min-w-36'
         disabled={isDisabled}
       />
       <Button
-        text={strings.play.buttons.stay}
+        text={t('play.buttons.stay')}
         onClick={onStay}
-        className='w-36'
+        className='w-fit min-w-36'
         loading={onStayLoading}
         disabled={isDisabled}
       />

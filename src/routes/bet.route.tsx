@@ -3,17 +3,13 @@ import { Layout, Button } from '@components/atoms'
 import { useNavigate } from '@tanstack/react-router'
 import { CURRENT_BET_KEY, Routes } from '@/constants'
 import { useState } from 'react'
-import {
-  BetChip,
-  BetDisplay,
-  GameFinishedDialog,
-  ChipAmount
-} from '@components/molecules'
+import { BetChip, BetDisplay, ChipAmount } from '@components/molecules'
 import { useBet, useChipBalance } from '@/hooks'
 import BlackChip from '@/assets/chips/chipBlack.png'
 import RedChip from '@/assets/chips/chipRed.png'
 import GreenChip from '@/assets/chips/chipGreen.png'
 import BlueChip from '@/assets/chips/chipBlue.png'
+import { useTranslation } from 'react-i18next'
 
 const CHIPS = [
   {
@@ -43,6 +39,7 @@ const Bet = () => {
   const { getChipBalance, updateChipBalance } = useChipBalance()
   const { updateCurrentBet } = useBet()
   const currentChipBalance = getChipBalance()
+  const { t } = useTranslation()
 
   const clearBet = () => {
     setBet(0)
@@ -86,7 +83,7 @@ const Bet = () => {
         </div>
 
         <Button
-          text='Play'
+          text={t('bet.buttons.play')}
           onClick={navigateToPlay}
           className='is-primary w-full md:w-1/3'
           disabled={bet === 0}

@@ -12,8 +12,9 @@ import {
   ChipAmount,
   GameFinishedDialog
 } from '@components/molecules'
-import { Cards, Routes, strings } from '@/constants'
+import { Cards, Routes } from '@/constants'
 import { useBet, useChipBalance, useHighScore } from '@/hooks'
+import { useTranslation } from 'react-i18next'
 
 const Play = () => {
   const [deckId, setDeckId] = useState<string | null>(null)
@@ -27,6 +28,7 @@ const Play = () => {
   const { currentBet } = useBet()
   const { getChipBalance, updateChipBalance } = useChipBalance()
   const { highScore, updateHighScore } = useHighScore()
+  const { t } = useTranslation()
 
   const getNewCard = async (
     cards: Card[],
@@ -195,11 +197,11 @@ const Play = () => {
   const checkHit = () => {
     if (playerScore === 21) {
       onPlayerWin()
-      setGameWinnerText(strings.play.results.playerWinsBlackjack)
+      setGameWinnerText(t('play.results.playerWinsBlackjack'))
       setGameFinished(true)
     } else if (playerScore > 21) {
       onDealerWin()
-      setGameWinnerText(strings.play.results.dealerWinsPlayerBusted)
+      setGameWinnerText(t('play.results.dealerWinsPlayerBusted'))
       setGameFinished(true)
     }
   }
@@ -213,18 +215,18 @@ const Play = () => {
   const checkWinner = () => {
     if (playerScore > 21) {
       onDealerWin()
-      return strings.play.results.dealerWinsPlayerBusted
+      return t('play.results.dealerWinsPlayerBusted')
     } else if (dealerScore > 21) {
       onPlayerWin()
-      return strings.play.results.playerWinsDealerBusted
+      return t('play.results.playerWinsDealerBusted')
     } else if (playerScore === dealerScore) {
-      return strings.play.results.tie
+      return t('play.results.tie')
     } else if (playerScore > dealerScore) {
       onPlayerWin()
-      return strings.play.results.playerWins
+      return t('play.results.playerWins')
     } else {
       onDealerWin()
-      return strings.play.results.dealerWins
+      return t('play.results.dealerWins')
     }
   }
 
@@ -257,18 +259,18 @@ const Play = () => {
               border={false}
               imagePosition='left'
               tooltipSide='right'
-              tooltipText={strings.play.tooltips.bet}
+              tooltipText={t('play.tooltips.bet')}
             />
             <ChipAmount
               amount={getChipBalance()}
               border={false}
               imagePosition='right'
               tooltipSide='left'
-              tooltipText={strings.play.tooltips.balance}
+              tooltipText={t('play.tooltips.balance')}
             />
           </div>
           <span className='absolute right-0 top-[5.5rem] pr-4 text-white'>
-            {strings.play.highScore} {highScore}
+            {t('play.highScore')} {highScore}
           </span>
           <div className='my-32 flex flex-1 flex-col items-center justify-between'>
             <div className='flex flex-col items-center'>

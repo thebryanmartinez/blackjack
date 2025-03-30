@@ -3,9 +3,13 @@
     "title": "Blackjack",
     "play": "Play",
     "changeColor": "Change color",
-    "wip": "WIP"
+    "changeLanguage": "English"
   },
-  "bet": {},
+  "bet": {
+    "buttons": {
+      "play": "Play"
+    }
+  },
   "play": {
     "highScore": "High score: ",
     "buttons": {

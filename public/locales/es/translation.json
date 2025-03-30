@@ -1,0 +1,39 @@
+{
+  "home": {
+    "title": "Blackjack",
+    "play": "Jugar",
+    "changeColor": "Cambiar mesa",
+    "changeLanguage": "Español"
+  },
+  "bet": {
+    "buttons": {
+      "play": "Jugar"
+    }
+  },
+  "play": {
+    "highScore": "Mejor puntuación: ",
+    "buttons": {
+      "hit": "Pedir",
+      "stay": "Plantarse"
+    },
+    "tooltips": {
+      "balance": "Saldo de fichas",
+      "bet": "Tu apuesta"
+    },
+    "results": {
+      "playerWinsBlackjack": "El jugador gana, ¡blackjack!",
+      "dealerWinsPlayerBusted": "La casa gana, el jugador se pasó!",
+      "tie": "¡Empate!",
+      "playerWins": "¡El jugador gana!",
+      "dealerWins": "¡La casa gana!",
+      "playerWinsDealerBusted": "¡El jugador gana, la casa se pasó!"
+    },
+    "dialog": {
+      "description": "¿Quieres jugar de nuevo con la misma apuesta?",
+      "buttons": {
+        "playAgain": "Jugar de nuevo",
+        "changeBet": "Cambiar apuesta"
+      }
+    }
+  }
+}

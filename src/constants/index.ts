@@ -1,5 +1,4 @@
 export * from './cards.constant'
-export { default as strings } from './strings.constant.json'
 export * from './localStorage.constant'
 export * from './sessionStorage.constant'
 export * from './routes.constant'
