@@ -2,11 +2,12 @@ import Modal from 'react-modal'
 import { ChipAmount } from '@components/molecules'
 import { Button } from '@components/atoms'
 import { useNavigate } from '@tanstack/react-router'
-import { Routes } from '@/constants'
+import { CURRENT_BET_KEY, Routes, strings } from '@/constants'
 
 interface GameFinishedDialogProps {
   isOpen: boolean
   onClickPlay: () => void
+  onClickChangeBet?: () => void
 }
 
 const customStyles = {
@@ -25,10 +26,13 @@ const customStyles = {
 
 export const GameFinishedDialog = ({
   isOpen = true,
-  onClickPlay
+  onClickPlay,
+  onClickChangeBet
 }: GameFinishedDialogProps) => {
   const navigate = useNavigate({ from: Routes.PLAY })
+
   const navigateToBet = () => {
+    onClickChangeBet && onClickChangeBet()
     navigate({ to: Routes.BET })
   }
 
@@ -38,20 +42,20 @@ export const GameFinishedDialog = ({
       style={customStyles}
       className='nes-container flex w-[50vw] flex-col items-center gap-8 bg-white lg:w-[400px]'
     >
-      Would you like to play again with the same bet?
+      {strings.play.dialog.description}
       <ChipAmount
-        amount={50}
-        amountClassname='text-black'
+        amount={Number(sessionStorage.getItem(CURRENT_BET_KEY) || 0)}
+        amountClassname='!text-gray-900'
       />
       <div className='grid w-full gap-4 lg:w-fit'>
         <Button
-          text='Play Again'
+          text={strings.play.dialog.buttons.playAgain}
           type='button'
           className='is-primary w-full lg:w-fit'
           onClick={onClickPlay}
         />
         <Button
-          text='Change Bet'
+          text={strings.play.dialog.buttons.changeBet}
           type='button'
           className='w-full lg:w-fit'
           onClick={navigateToBet}

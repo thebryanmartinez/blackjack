@@ -39,9 +39,8 @@ const Home = () => {
             className='w-full'
             onClick={toggleTableColor}
           />
-          <Button text='WIP' />
+          <Button text={strings.home.wip} />
         </div>
-        <GameFinishedDialog />
       </div>
     </Layout>
   )

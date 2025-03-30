@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Layout, Button } from '@components/atoms'
 import { useNavigate } from '@tanstack/react-router'
-import { Routes } from '@/constants'
+import { CURRENT_BET_KEY, Routes } from '@/constants'
 import { useState } from 'react'
 import {
   BetChip,
@@ -35,7 +35,9 @@ const CHIPS = [
 ]
 
 const Bet = () => {
-  const [bet, setBet] = useState<number>(0)
+  const [bet, setBet] = useState<number>(
+    Number(sessionStorage.getItem(CURRENT_BET_KEY) || 0)
+  )
   const navigate = useNavigate({ from: Routes.BET })
 
   const { getChipBalance, updateChipBalance } = useChipBalance()
@@ -90,10 +92,6 @@ const Bet = () => {
           disabled={bet === 0}
         />
       </div>
-      <GameFinishedDialog
-        isOpen={true}
-        onClickPlay={() => {}}
-      />
     </Layout>
   )
 }

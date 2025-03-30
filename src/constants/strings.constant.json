@@ -2,7 +2,8 @@
   "home": {
     "title": "Blackjack",
     "play": "Play",
-    "changeColor": "Change color"
+    "changeColor": "Change color",
+    "wip": "WIP"
   },
   "bet": {},
   "play": {
@@ -22,6 +23,13 @@
       "playerWins": "Player wins!",
       "dealerWins": "Dealer wins!",
       "playerWinsDealerBusted": "Player wins, Dealer busted!"
+    },
+    "dialog": {
+      "description": "Would you like to play again with the same bet?",
+      "buttons": {
+        "playAgain": "Play Again",
+        "changeBet": "Change Bet"
+      }
     }
   }
 }

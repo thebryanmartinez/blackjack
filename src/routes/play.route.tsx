@@ -9,7 +9,8 @@ import {
   GameResult,
   Score,
   PlayerActions,
-  ChipAmount
+  ChipAmount,
+  GameFinishedDialog
 } from '@components/molecules'
 import { Cards, Routes, strings } from '@/constants'
 import { useBet, useChipBalance, useHighScore } from '@/hooks'
@@ -161,9 +162,8 @@ const Play = () => {
           }, 500)
         } else {
           const winnerText = checkWinner()
-          console.log(winnerText)
           setGameWinnerText(winnerText)
-          restartGame()
+          setGameFinished(true)
         }
       }
     }
@@ -196,11 +196,11 @@ const Play = () => {
     if (playerScore === 21) {
       onPlayerWin()
       setGameWinnerText(strings.play.results.playerWinsBlackjack)
-      restartGame()
+      setGameFinished(true)
     } else if (playerScore > 21) {
       onDealerWin()
       setGameWinnerText(strings.play.results.dealerWinsPlayerBusted)
-      restartGame()
+      setGameFinished(true)
     }
   }
 
@@ -229,14 +229,12 @@ const Play = () => {
   }
 
   const restartGame = () => {
-    setTimeout(() => {
-      setGameFinished(false)
-      setPlayerScore(0)
-      setDealerScore(0)
-      setGameWinnerText('')
-      setGameRestart((prev) => !prev)
-      setDealerTurn(false)
-    }, 4000)
+    setGameFinished(false)
+    setPlayerScore(0)
+    setDealerScore(0)
+    setGameWinnerText('')
+    setGameRestart((prev) => !prev)
+    setDealerTurn(false)
   }
 
   const isButtonDisabled =
@@ -297,6 +295,11 @@ const Play = () => {
         </>
       )}
       {gameWinnerText && <GameResult text={gameWinnerText} />}
+      <GameFinishedDialog
+        isOpen={gameFinished}
+        onClickPlay={restartGame}
+        onClickChangeBet={() => setGameFinished(false)}
+      />
     </Layout>
   )
 }
