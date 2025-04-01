@@ -1,6 +1,6 @@
 import axios from 'axios'
 
 export const baseApi = axios.create({
-  baseURL: '',
+  baseURL: 'https://www.deckofcardsapi.com/api',
   headers: {}
 })

@@ -1,0 +1,39 @@
+{
+  "home": {
+    "title": "Blackjack",
+    "play": "Play",
+    "changeColor": "Change color",
+    "changeLanguage": "English"
+  },
+  "bet": {
+    "buttons": {
+      "play": "Play"
+    }
+  },
+  "play": {
+    "highScore": "High score: ",
+    "buttons": {
+      "hit": "Hit",
+      "stay": "Stay"
+    },
+    "tooltips": {
+      "balance": "Chip balance",
+      "bet": "Your bet"
+    },
+    "results": {
+      "playerWinsBlackjack": "Player wins, blackjack!",
+      "dealerWinsPlayerBusted": "Dealer wins, player busted!",
+      "tie": "It's a tie!",
+      "playerWins": "Player wins!",
+      "dealerWins": "Dealer wins!",
+      "playerWinsDealerBusted": "Player wins, Dealer busted!"
+    },
+    "dialog": {
+      "description": "Would you like to play again with the same bet?",
+      "buttons": {
+        "playAgain": "Play Again",
+        "changeBet": "Change Bet"
+      }
+    }
+  }
+}
