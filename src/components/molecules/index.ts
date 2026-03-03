@@ -1,7 +1,6 @@
 export * from './Score'
 export * from './CardHand'
 export * from './PlayerActions'
-export * from './GameResult'
 export * from './BetChip'
 export * from './BetDisplay'
 export * from './GameFinishedDialog'
