@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Layout, Button } from '@components/atoms'
+import { Layout } from '@components/atoms'
+import { Button } from '@/components/ui/pixelact-ui/button'
 import { useNavigate } from '@tanstack/react-router'
 import { CURRENT_BET_KEY, Routes } from '@/constants'
 import { useState } from 'react'
@@ -61,8 +62,9 @@ const Bet = () => {
         <Button
           className='!pl-3 !pr-3'
           onClick={navigateToHome}
-          text='<'
-        />
+        >
+          {'<'}
+        </Button>
         <ChipAmount amount={currentChipBalance - bet} />
       </div>
       <BetDisplay
@@ -83,11 +85,13 @@ const Bet = () => {
         </div>
 
         <Button
-          text={t('bet.buttons.play')}
+          variant='default'
           onClick={navigateToPlay}
-          className='is-primary w-full md:w-1/3'
+          className='w-full md:w-1/3'
           disabled={bet === 0}
-        />
+        >
+          {t('bet.buttons.play')}
+        </Button>
       </div>
     </Layout>
   )

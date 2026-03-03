@@ -1,4 +1,5 @@
-import { Button, Typography } from '@components/atoms'
+import { Typography } from '@components/atoms'
+import { Button } from '@/components/ui/pixelact-ui/button'
 
 interface BetDisplayProps {
   bet: number
@@ -15,11 +16,13 @@ export const BetDisplay = ({ bet, clearBet }: BetDisplayProps) => {
         {bet}
       </Typography>
       <Button
+        variant='default'
         className='!px-2'
-        text='X'
         onClick={clearBet}
         disabled={bet === 0}
-      />
+      >
+        X
+      </Button>
     </div>
   )
 }

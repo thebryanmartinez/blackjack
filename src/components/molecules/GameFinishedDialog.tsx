@@ -1,6 +1,6 @@
 import Modal from 'react-modal'
 import { ChipAmount } from '@components/molecules'
-import { Button } from '@components/atoms'
+import { Button } from '@/components/ui/pixelact-ui/button'
 import { useNavigate } from '@tanstack/react-router'
 import { CURRENT_BET_KEY, Routes } from '@/constants'
 import { useTranslation } from 'react-i18next'
@@ -51,17 +51,20 @@ export const GameFinishedDialog = ({
       />
       <div className='grid w-full gap-4 lg:w-fit'>
         <Button
-          text={t('play.dialog.buttons.playAgain')}
+          variant='success'
           type='button'
-          className='is-primary w-full lg:w-fit'
+          className='w-full lg:w-fit'
           onClick={onClickPlay}
-        />
+        >
+          {t('play.dialog.buttons.playAgain')}
+        </Button>
         <Button
-          text={t('play.dialog.buttons.changeBet')}
           type='button'
           className='w-full lg:w-fit'
           onClick={navigateToBet}
-        />
+        >
+          {t('play.dialog.buttons.changeBet')}
+        </Button>
       </div>
     </Modal>
   )
