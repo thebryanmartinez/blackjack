@@ -10,8 +10,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  TooltipContentProps
-} from '@radix-ui/react-tooltip'
+} from '@/components/ui/pixelact-ui/tooltip'
+import type { TooltipContentProps } from '@radix-ui/react-tooltip'
 
 interface ChipAmountProps {
   amount: number
@@ -49,7 +49,6 @@ export const ChipAmount = ({
 
   const borderStyle = border ? '' : '!border-none !p-0'
   const scaleStyle = scale ? `scale-${scale}` : ''
-  const balloonStyle = tooltipSide === 'right' ? 'from-left' : 'from-right'
 
   return (
     <TooltipProvider>
@@ -81,7 +80,7 @@ export const ChipAmount = ({
           </div>
         </TooltipTrigger>
         <TooltipContent side={tooltipSide}>
-          <div className={`nes-balloon ${balloonStyle}`}>{tooltipText}</div>
+          {tooltipText}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
