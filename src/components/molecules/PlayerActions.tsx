@@ -1,4 +1,4 @@
-import { Button } from '@components/atoms'
+import { Button } from '@/components/ui/pixelact-ui/button'
 import { useTranslation } from 'react-i18next'
 
 interface PlayerActionsProps {
@@ -21,17 +21,18 @@ export const PlayerActions = ({
     <div className='absolute bottom-8 left-0 flex w-full flex-row justify-center gap-12 '>
       <Button
         onClick={onHit}
-        text={t('play.buttons.hit')}
-        className='is-primary w-fit min-w-36'
+        className='w-fit min-w-36'
         disabled={isDisabled}
-      />
+      >
+        {t('play.buttons.hit')}
+      </Button>
       <Button
-        text={t('play.buttons.stay')}
         onClick={onStay}
         className='w-fit min-w-36'
-        loading={onStayLoading}
-        disabled={isDisabled}
-      />
+        disabled={isDisabled || onStayLoading}
+      >
+        {t('play.buttons.stay')}
+      </Button>
     </div>
   )
 }

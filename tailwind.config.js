@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        dark: '#24242c',
         table: {
           green: '#126c29',
           blue: '#105493',
@@ -13,5 +13,5 @@ export default {
       }
     }
   },
-  plugins: []
+  plugins: [require('tailwindcss-animate')]
 }

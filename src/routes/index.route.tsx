@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Logo } from '@/assets'
-import { Layout, Typography, Button } from '@/components/atoms'
+import { Layout, Typography } from '@/components/atoms'
+import { Button } from '@/components/ui/pixelact-ui/button'
 import { useNavigate } from '@tanstack/react-router'
 import { Routes } from '@/constants'
 import { useTableTheme } from '@/contexts'
@@ -35,28 +36,27 @@ const Home = () => {
       />
       <div className='flex w-full flex-col place-items-center gap-4'>
         <Button
-          className='nes-btn is-primary w-full md:w-1/2 '
-          text={t('home.play')}
+          className='w-full md:w-1/2'
           onClick={navigateToBet}
-        />
+        >
+          {t('home.play')}
+        </Button>
         <div className='flex justify-between gap-4 md:w-1/2'>
           <Button
-            text={t('home.changeColor')}
             className='w-full'
             onClick={toggleTableColor}
-          />
-          <Button
-            text={
-              <div className='flex flex-row items-center justify-center gap-2'>
-                <img
-                  src={i18n.language === 'es' ? SpanishFlag : EnglishFlag}
-                  alt=''
-                />
-                <p className='m-0 p-0'>{t('home.changeLanguage')}</p>
-              </div>
-            }
-            onClick={toggleLanguage}
-          />
+          >
+            {t('home.changeColor')}
+          </Button>
+          <Button onClick={toggleLanguage}>
+            <div className='flex flex-row items-center justify-center gap-2'>
+              <img
+                src={i18n.language === 'es' ? SpanishFlag : EnglishFlag}
+                alt=''
+              />
+              <p className='m-0 p-0'>{t('home.changeLanguage')}</p>
+            </div>
+          </Button>
         </div>
       </div>
     </Layout>

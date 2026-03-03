@@ -6,7 +6,6 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { Layout, Loader } from '@components/atoms'
 import {
   CardHand,
-  GameResult,
   Score,
   PlayerActions,
   ChipAmount,
@@ -296,7 +295,6 @@ const Play = () => {
           />
         </>
       )}
-      {gameWinnerText && <GameResult text={gameWinnerText} />}
       <GameFinishedDialog
         isOpen={gameFinished}
         onClickPlay={restartGame}
