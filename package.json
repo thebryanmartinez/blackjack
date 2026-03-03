@@ -1,7 +1,7 @@
 {
   "name": "blackjack",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -29,7 +29,6 @@
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.4",
     "react-i18next": "^15.4.1",
-    "react-modal": "^3.16.3",
     "tailwind-merge": "^3.5.0",
     "tailwindcss-animate": "^1.0.7"
   },

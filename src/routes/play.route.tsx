@@ -296,7 +296,6 @@ const Play = () => {
           />
         </>
       )}
-      {gameWinnerText && <GameResult text={gameWinnerText} />}
       <GameFinishedDialog
         isOpen={gameFinished}
         onClickPlay={restartGame}
